@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'lewis_structures_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
+        'NAME': 'purseev_lewis_structures',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': '',
