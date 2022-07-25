@@ -1,5 +1,5 @@
-from django.db import models
-from molecule_model import Molecule
+from django.db import models 
+from .molecule import Molecule
 
 class Atom(models.Model):
     atom_id = models.BigAutoField(primary_key=True)

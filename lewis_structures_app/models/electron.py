@@ -1,5 +1,5 @@
 from django.db import models
-from atom_model import Atom
+from .atom import Atom
 
 class Electron(models.Model):
     electron_id = models.BigAutoField(primary_key=True)
