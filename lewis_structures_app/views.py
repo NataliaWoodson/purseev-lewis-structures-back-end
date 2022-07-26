@@ -46,9 +46,10 @@ def get_query_result(query_id):
 
 def get_molecular_data(data):
     # print(data)
+    
     params={
         "recordIds":data,
-        "fields": ["smiles", "stdinchiKey"]
+        "fields": ["commonName", "smiles", "stdinchiKey"]
     }
     res = requests.post(f'https://api.rsc.org/compounds/v1/records/batch', json = params, headers={'apikey': apiKey})
     data = res.json()
@@ -58,7 +59,14 @@ def get_molecular_data(data):
 
 
 def filter_molecular_data(data):
-    
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I"]
+    for molecule in data["records"]:
+        for name in common_names:
+            if name not in molecule["commonName"]:
+                print("not found")
+            else: 
+                print("found")
+
     filtered_molecules = []
     print(data["records"])
     print("lengthBefore", len(data["records"]))
