@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lewis_structures_app', '0001_initial'),
+        ("lewis_structures_app", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='atom',
-            name='element_symbol',
+            model_name="atom",
+            name="element_symbol",
             field=models.CharField(max_length=3),
         ),
     ]
