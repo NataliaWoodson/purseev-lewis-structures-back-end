@@ -24,13 +24,6 @@ def index(request):
     return JsonResponse(elementRequestDisplay)
 
 
-# def getQueryStatus(queryId):
-#     query_Id = queryId["queryId"]
-#     res = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_Id}/status', headers={'apikey': apiKey})
-#     data = res.json
-#     print(f'dataresponse: {data}')
-#     return JsonResponse(data)
-
 def get_query_status(query_id):
     query_id = query_id["queryId"]
     res = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_id}/status', headers={'apikey': apiKey})
@@ -55,12 +48,34 @@ def get_molecular_data(data):
     # print(data)
     params={
         "recordIds":data,
-        "fields": ["Formula","smiles", "commonName", "stdinchiKey", "molecularWeight"]
+        "fields": ["smiles", "stdinchiKey"]
     }
     res = requests.post(f'https://api.rsc.org/compounds/v1/records/batch', json = params, headers={'apikey': apiKey})
     data = res.json()
     # print(f'data response: {data}')
+    filterMolecularData = filter_molecular_data(data)
+    return filterMolecularData
+
+
+def filter_molecular_data(data):
+    
+    filtered_molecules = []
+    print(data["records"])
+    print("lengthBefore", len(data["records"]))
+    for molecule in data["records"]:
+        stdinchi_key = molecule["stdinchiKey"]
+        res = requests.get(f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchikey/{stdinchi_key}/property/MolecularFormula,Charge,Complexity/JSON')
+        res_data = res.json()
+        if res_data["PropertyTable"]["Properties"][0]["Charge"] == 0:
+            filtered_molecules.append(res_data["PropertyTable"]["Properties"][0]["MolecularFormula"])
+
+    print(filtered_molecules)
+    print("lengthAfter", len(filtered_molecules))
+
+
     return data
+
+
 
 
 
