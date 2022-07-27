@@ -63,3 +63,10 @@ class Atom(models.Model):
         for _ in range(num_unpaired_electrons):
             electron = Electron(is_paired=False, atom=self)
             self.electrons.append(electron)
+
+    def all_electrons_bonded(self):
+        for electron in self.electrons:
+            if electron.is_paired == False:
+                return False
+        
+        return True
