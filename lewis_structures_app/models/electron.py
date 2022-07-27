@@ -1,6 +1,7 @@
 from operator import mod
 from django.db import models
 
+
 class Electron(models.Model):
     electron_id = models.BigAutoField(primary_key=True)
     is_paired = models.BooleanField(default=False)

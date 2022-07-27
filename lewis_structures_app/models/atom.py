@@ -19,8 +19,11 @@ valence_electrons_by_element = {
 
 class Atom(models.Model):
     atom_id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=10, blank=True)
     element_symbol = models.CharField(max_length=2)
-    molecule = models.ForeignKey("lewis_structures_app.Molecule", on_delete=models.CASCADE)
+    molecule = models.ForeignKey(
+        "lewis_structures_app.Molecule", on_delete=models.CASCADE
+    )
     electrons = None
 
     def self_to_dict(self):
@@ -68,5 +71,5 @@ class Atom(models.Model):
         for electron in self.electrons:
             if electron.is_paired == False:
                 return False
-        
+
         return True
