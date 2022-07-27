@@ -1,4 +1,5 @@
-from django.contrib.auth.models import Electron, Atom, Molecule
+from django.contrib.auth.models import Electron
+# , Atom, Molecule
 from rest_framework import serializers
 
 class ElectronSerializer(serializers.HyperlinkedModelSerializer):
