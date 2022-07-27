@@ -1,11 +1,11 @@
 from django.db import models
-from atom_model import Atom
+# from .atom import Atom
 
 class Electron(models.Model):
     electron_id = models.BigAutoField(primary_key=True)
     is_paired = models.BooleanField(default=None)
-    atom = models.ForeignKey(Atom, on_delete=models.CASCADE)
-    paired_with = models.ForeignKey("Electron", null=True, blank=True)
+    atom = models.ForeignKey("lewis_structures_app.Atom", on_delete=models.CASCADE)
+    paired_with = models.ForeignKey("lewis_structures_app.Electron", null=True, blank=True, on_delete=models.CASCADE)
     # front end may be able to handle this:
     # bonded_to = models.IntegerField("Electron id bonded to")
 
@@ -17,8 +17,8 @@ class Electron(models.Model):
             "electron_id": self.electron_id,
             "is_paired": self.is_paired,
             # b/c its serialized
-            "atom": self.atom_id,
-            "paired_with": self.paired_with_id
+            "atom": self.atom,
+            "paired_with": self.paired_with
         }
 
     def update(self,req_body):
@@ -31,11 +31,11 @@ class Electron(models.Model):
     @classmethod
     def create(cls, req_body):
         electron = cls(
-            atom_id=req_body["atom"],
+            atom=req_body["atom"],
             # atom=Atom.get(req_body["atom"])
             # slower and requires an extra database request
-            is_paired=req_body["is_paired"]
-            paired_with_id=req_body["paired_with"]
+            is_paired=req_body["is_paired"],
+            paired_with=req_body["paired_with"]
         )
         return electron
 
