@@ -1,4 +1,5 @@
-from django.contrib.auth.models import Electron, Atom, Molecule
+# from django.contrib.auth.models import Electron, Atom, Molecule
+from lewis_structures_app.models import Electron, Atom, Molecule
 from rest_framework import viewsets, permissions
 from lewis_structures_app.serializers import ElectronSerializer, AtomSerializer, MoleculeSerializer
 # from django.shortcuts import render

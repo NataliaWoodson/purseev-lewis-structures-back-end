@@ -1,5 +1,6 @@
-from django.contrib.auth.models import Electron
+# from django.contrib.auth.models import Electron
 # , Atom, Molecule
+from lewis_structures_app.models import Electron, Atom, Molecule
 from rest_framework import serializers
 
 class ElectronSerializer(serializers.HyperlinkedModelSerializer):
@@ -12,7 +13,7 @@ class AtomSerializer(serializers.HyperlinkedModelSerializer):
         model = Atom
         fields = ['atom_id', 'molecule', 'electrons', 'name']
 
-class MoleculeSerializaer(serializers.HyperlinkedModelSerializer):
+class MoleculeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Molecule
         fields = ['molecule_id', 'molecular_formula']
