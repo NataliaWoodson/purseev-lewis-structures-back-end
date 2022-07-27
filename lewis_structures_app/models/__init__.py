@@ -1,3 +1,3 @@
-from .atom import Atom
-from .electron import Electron
-from .molecule import Molecule
+from .atom_model import Atom
+from .electron_model import Electron
+from .molecule_model import Molecule
