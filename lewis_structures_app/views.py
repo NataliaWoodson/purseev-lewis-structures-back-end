@@ -120,8 +120,47 @@ def filtered_by_charge(data):
         #     raise
     print(filtered_molecules)
     print("lengthAfter", len(filtered_molecules))
+    remove_molecules_starting_with_num(filtered_molecules)
     return data
 
+def remove_molecules_starting_with_num(filtered_molecules):
+    filtered_list = []
+    # iterate through every formula
+    # if first char is not num:
+        # add to list
+    for molecule in filtered_molecules:
+        if molecule[0].isdigit():
+            filtered_list.append(molecule)
+
+    print("filtered list:", filtered_list)
+    filter_atoms(filtered_list)
+
+# filter for only 6 atoms
+final_list = []
+def filter_atoms(filtered_list):
+    for formula in filtered_list:
+        if not formula.isalpha():
+            print("entered helper function")
+            filter_for_max_atoms(formula)
+        else:
+            count = len(formula)
+            print(count)
+            if count <= 6:
+                final_list.append(formula)
+    print(final_list)
+
+# helper function to filter atoms
+def filter_for_max_atoms(filtered_list):
+    for formula in filtered_list:
+        count = 0
+        for char in range(len(formula) - 1):
+            if (formula[char] + 1).isdigit():
+                count += int(formula[char] + 1)
+            else:
+                count += 1
+    if count <= 6:
+        final_list.append(formula)   
+    print(count)
 
 
 
