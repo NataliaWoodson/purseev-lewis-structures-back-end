@@ -7,7 +7,7 @@ from lewis_structures_app.serializers import MoleculeSerializer
 
 class MoleculeViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows electrons to be viewed or edited
+    API endpoint that allows molecules to be viewed or edited
     """
 
     queryset = Molecule.objects.all().order_by("molecule_id")
