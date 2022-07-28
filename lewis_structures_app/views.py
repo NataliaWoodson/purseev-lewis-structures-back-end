@@ -1,3 +1,6 @@
+from lewis_structures_app.models import Molecule
+from rest_framework import viewsets, permissions
+from lewis_structures_app.serializers import MoleculeSerializer
 from operator import contains
 from urllib import response
 from django.http import HttpResponse, JsonResponse
@@ -6,6 +9,19 @@ import json
 import os
 import time
 from random import randint
+
+# def index(request):
+#     return HttpResponse("Hello, world. You're at the polls index.")
+
+class MoleculeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows molecules to be viewed or edited
+    """
+
+    queryset = Molecule.objects.all().order_by("molecule_id")
+    serializer_class = MoleculeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 
 apiUrl = "https://api.rsc.org/compounds/v1/filter/element"
 apiKey = os.environ.get("API_KEY")
@@ -65,8 +81,12 @@ def get_molecular_data(data):
     return filterMolecularData
     # filtered_charge = filtered_by_charge(data["records"])
     # return filtered_charge
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> main
 # filter out common name constraint and return a list with valid molecules
 def filter_molecular_data(data):
     filtered_molecules = []
@@ -81,7 +101,11 @@ def filter_molecular_data(data):
 
 #helper function
 def isMoleculeInCommonName(molecule):
+<<<<<<< HEAD
     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "yl", "(", ")", "I", "$"]
+=======
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
+>>>>>>> main
     for name in common_names:
         molecule_name = molecule["commonName"]
         molecule_name = molecule_name.replace(" ", "")
