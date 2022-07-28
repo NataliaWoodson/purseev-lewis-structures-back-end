@@ -64,8 +64,7 @@ def get_molecular_data(data):
     return filterMolecularData
     # filtered_charge = filtered_by_charge(data["records"])
     # return filtered_charge
-   
-
+    
 # filter out common name constraint and return a list with valid molecules
 def filter_molecular_data(data):
     filtered_molecules = []
@@ -80,7 +79,7 @@ def filter_molecular_data(data):
 
 #helper function
 def isMoleculeInCommonName(molecule):
-    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I", "$"]
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
     for name in common_names:
         molecule_name = molecule["commonName"]
         molecule_name = molecule_name.replace(" ", "")
