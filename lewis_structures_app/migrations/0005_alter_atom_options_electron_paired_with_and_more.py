@@ -7,17 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lewis_structures_app', '0004_atom_name'),
+        ("lewis_structures_app", "0004_atom_name"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='atom',
-            options={'ordering': ['atom_id']},
+            name="atom",
+            options={"ordering": ["atom_id"]},
         ),
         migrations.AlterField(
-            model_name='electron',
-            name='is_paired',
+            model_name="electron",
+            name="is_paired",
             field=models.BooleanField(default=None),
         ),
     ]

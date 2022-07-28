@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lewis_structures_app', '0007_electron_paired_with'),
+        ("lewis_structures_app", "0007_electron_paired_with"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='electron',
-            name='is_paired',
+            model_name="electron",
+            name="is_paired",
             field=models.BooleanField(blank=True, default=None),
         ),
         migrations.AlterField(
-            model_name='electron',
-            name='starting_is_paired',
+            model_name="electron",
+            name="starting_is_paired",
             field=models.BooleanField(blank=True, default=None),
         ),
     ]

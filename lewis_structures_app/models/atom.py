@@ -27,7 +27,7 @@ class Atom(models.Model):
     electrons = None
 
     class Meta:
-        ordering = ['atom_id']
+        ordering = ["atom_id"]
 
     def self_to_dict(self):
         instance_dict = dict(
