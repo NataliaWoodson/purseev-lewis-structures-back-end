@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+
 urlpatterns = [
     path("lewis_structures_app/", include("lewis_structures_app.urls")),
     path("admin/", admin.site.urls),
