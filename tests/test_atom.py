@@ -49,11 +49,9 @@ class AtomModelsTests(TestCase):
         """
         initialization of Atom
         """
-        
+
         H_1 = Atom.objects.all()[0]
         print("After resetting electrons or H_1 are: ", H_1.electrons)
-        
-        
 
         self.assertTrue(
             H_1.element_symbol
