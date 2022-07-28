@@ -7,8 +7,5 @@ router.register(r"molecules", views.MoleculeViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-
-    # path('molecule', views.index, name='index'),
-    # path('querystatus', views.get_query_status, name='get'),
-    # path('queryresults', views.get_query_results, name='query_results'),
+    path('api', views.index, name='index'),
 ]
