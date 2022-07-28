@@ -42,7 +42,7 @@ def get_query_result(query_id):
     #randomize the molecules
     params={
         "start": randint(0,890),
-        "count": 10
+        "count": 50
     }
     response = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_id}/results', params = params, headers={'apikey': apiKey})
     data = response.json()
@@ -81,7 +81,7 @@ def filter_molecular_data(data):
 
 #helper function
 def isMoleculeInCommonName(molecule):
-    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I", "$"]
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "yl", "(", ")", "I", "$"]
     for name in common_names:
         molecule_name = molecule["commonName"]
         molecule_name = molecule_name.replace(" ", "")
