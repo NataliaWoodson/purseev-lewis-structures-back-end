@@ -3,7 +3,8 @@ from django.db import models
 
 class Electron(models.Model):
     electron_id = models.BigAutoField(primary_key=True)
-    is_paired = models.BooleanField(default=None)
+    starting_is_paired = models.BooleanField(default=None, blank=True)
+    is_paired = models.BooleanField(default=None, blank=True)
     atom = models.ForeignKey("lewis_structures_app.Atom", on_delete=models.CASCADE)
     paired_with = models.ForeignKey("lewis_structures_app.Electron", null=True, blank=True, on_delete=models.CASCADE)
     # front end may be able to handle this:

@@ -3,10 +3,9 @@ from lewis_structures_app.models import Electron, Atom, Molecule
 from rest_framework import viewsets, permissions
 from lewis_structures_app.serializers import ElectronSerializer, AtomSerializer, MoleculeSerializer
 # from django.shortcuts import render
-# from django.http import HttpResponse, HttpRequest
-# from .models.molecule import Molecule
-# from .models.atom import Atom
-# from .models.electron import Electron
+from django.http import HttpResponse, HttpRequest, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
 
 
 # def index(request):
@@ -28,6 +27,34 @@ class ElectronViewSet(viewsets.ModelViewSet):
     queryset = Electron.objects.all().order_by('electron_id')
     serializer_class = ElectronSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    @csrf_exempt
+    def electron_list(request):
+        if request.method == 'PATCH':
+            data = JSONParser().parse(request)
+            serializer = ElectronSerializer(data=data)
+
+            if "bond" in data.keys():
+                electrons = Electron.objects.all()
+                serializer = ElectronSerializer(electrons, many=True)
+                for electron_id in data.electrons:
+                    electron = electrons.objects.get(electron_id=electron_id)
+                    electron.is_paired = True
+                serializer.save()
+
+                return JsonResponse(serializer.data, status=200)
+            
+            if "unpair" in data.keys():
+                electrons = Electron.objects.all()
+                serializer = ElectronSerializer(electrons, many=True)
+                for electron_id in data.electrons:
+                    electron = electrons.objects.get(electron_id=electron_id)
+                    electron.is_paired = electron.starting_is_paired
+                serializer.save()
+
+                return JsonResponse(serializer.data, status=200)
+                
+
 
 class AtomViewSet(viewsets.ModelViewSet):
     """

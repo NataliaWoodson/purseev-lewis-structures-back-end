@@ -6,7 +6,9 @@ from rest_framework import serializers
 class ElectronSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Electron
-        fields = ['electron_id', 'is_paired', 'paired_with', 'atom']
+        fields = ['electron_id', 'is_paired', 'paired_with', 'atom', 'starting_is_paired']
+
+########################################
 
 class AtomSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
