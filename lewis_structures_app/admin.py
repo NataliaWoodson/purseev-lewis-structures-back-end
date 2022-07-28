@@ -2,8 +2,6 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Molecule, Atom, Electron
+from .models import Molecule
 
 admin.site.register(Molecule)
-admin.site.register(Atom)
-admin.site.register(Electron)
