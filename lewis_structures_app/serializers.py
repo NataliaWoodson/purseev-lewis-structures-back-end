@@ -3,22 +3,6 @@
 from lewis_structures_app.models import Electron, Atom, Molecule
 from rest_framework import serializers
 
-
-class ElectronSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Electron
-        fields = ["electron_id", "is_paired", "atom", "starting_is_paired"]
-
-
-########################################
-
-
-class AtomSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Atom
-        fields = ["atom_id", "molecule", "electrons", "name"]
-
-
 class MoleculeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Molecule

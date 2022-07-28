@@ -20,6 +20,7 @@ class Electron(models.Model):
         electron = {
             "electron_id": self.electron_id,
             "is_paired": self.is_paired,
+            "starting_is_paired": self.starting_is_paired,
             # b/c its serialized
             "atom": self.atom,
             # "paired_with": self.paired_with
