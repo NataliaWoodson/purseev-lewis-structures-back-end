@@ -60,34 +60,36 @@ def get_molecular_data(data):
 
     response = requests.post(f'https://api.rsc.org/compounds/v1/records/batch', json = params, headers={'apikey': apiKey})
     data = response.json()
-    # filterMolecularData = filter_molecular_data(data)
-    filtered_charge = filtered_by_charge(data["records"])
-    return filtered_charge
-    # return filterMolecularData
+    filterMolecularData = filter_molecular_data(data)
+    return filterMolecularData
+    # filtered_charge = filtered_by_charge(data["records"])
+    # return filtered_charge
+   
 
-#filter out common name constraint and return a list with valid molecules
-# def filter_molecular_data(data):
-#     filtered_molecules_common_name = []
-#     #as we go thru every molecule and we check every name and see if that is in our common names and if it is, skip it(molecule) and not add it to our list.
-#     #Given, do, return
-#     for molecule in data["records"]:        
-#         if isMoleculeInCommonName(molecule) == False:
-#             filtered_molecules_common_name.append(molecule)
-#     filtered_charge = filtered_by_charge(filtered_molecules_common_name)
-#     return filtered_charge
+# filter out common name constraint and return a list with valid molecules
+def filter_molecular_data(data):
+    filtered_molecules = []
+    #as we go thru every molecule and we check every name and see if that is in our common names and if it is, skip it(molecule) and not add it to our list.
+    #Given, do, return
+    for molecule in data["records"]:        
+        if isMoleculeInCommonName(molecule) == False:
+            filtered_molecules.append(molecule)
+    # return filtered_molecules
+    filtered_charge = filtered_by_charge(filtered_molecules)
+    return filtered_charge
 
 #helper function
-# def isMoleculeInCommonName(molecule):
-#     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I"]
-#     for name in common_names:
-#         molecule_name = molecule["commonName"]
-#         molecule_name = molecule_name.replace(" ", "")
+def isMoleculeInCommonName(molecule):
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I", "$"]
+    for name in common_names:
+        molecule_name = molecule["commonName"]
+        molecule_name = molecule_name.replace(" ", "")
 
-#         if name in molecule_name:
-#             return True
-#         elif molecule_name.isalnum():
-#             return False 
-#     return True
+        if name in molecule_name:
+            return True
+        # elif molecule_name.isalnum():
+        #     return False 
+    return False
 
 def filtered_by_charge(filtered_data):
     filtered_molecules = []
@@ -111,8 +113,6 @@ def filter_for_single_elements(filtered_data):
     return filter_for_atoms
 
 final_list = []
-not_alpha = []
-alpha = []
 def filter_atoms(filtered_data):
     for molecule in filtered_data:
         if not molecule.isalpha():
@@ -130,6 +130,37 @@ def create_formula_set(filtered_data):
     return json_list
 
     
+
+# helper function to filter atoms
+def filter_for_max_atoms(molecule):
+    count  = 0
+    for char in range(len(molecule) - 1):
+        if (molecule[char + 1]).isdigit():
+            count += int(molecule[char + 1])
+        else:
+            count += 1
+    if count <= 6:
+        final_list.append(molecule)
+    return final_list
+
+
+
+# ******************************************************************************
+    
+    # for molecule in filtered_data:
+    #     count = 0
+    #     for char in range(len(molecule) - 1):
+    #         if (molecule[char] + 1).isdigit():
+    #             count += int(molecule[char] + 1)
+    #         else:
+    #             count += 1
+    # if count <= 6:
+    #     final_list.append(molecule)   
+    # return final_list
+
+
+
+
 # def filtered_by_charge(data):
 #     filtered_molecules = []    
 #     for molecule in data["records"]:
@@ -161,29 +192,3 @@ def create_formula_set(filtered_data):
     #         if count <= 6:
     #             final_list.append(formula)
     # return final_list
-
-# helper function to filter atoms
-def filter_for_max_atoms(molecule):
-    count  = 0
-    for char in range(len(molecule) - 1):
-        if (molecule[char + 1]).isdigit():
-            count += int(molecule[char + 1])
-        else:
-            count += 1
-    if count <= 6:
-        final_list.append(molecule)
-    return final_list
-    # for molecule in filtered_data:
-    #     count = 0
-    #     for char in range(len(molecule) - 1):
-    #         if (molecule[char] + 1).isdigit():
-    #             count += int(molecule[char] + 1)
-    #         else:
-    #             count += 1
-    # if count <= 6:
-    #     final_list.append(molecule)   
-    # return final_list
-
-
-
-
