@@ -42,7 +42,7 @@ def get_query_result(query_id):
     #randomize the molecules
     params={
         "start": randint(0,890),
-        "count": 50
+        "count": 10
     }
     response = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_id}/results', params = params, headers={'apikey': apiKey})
     data = response.json()
@@ -67,28 +67,28 @@ def get_molecular_data(data):
     # return filterMolecularData
 
 #filter out common name constraint and return a list with valid molecules
-# def filter_molecular_data(data):
-#     filtered_molecules_common_name = []
-#     #as we go thru every molecule and we check every name and see if that is in our common names and if it is, skip it(molecule) and not add it to our list.
-#     #Given, do, return
-#     for molecule in data["records"]:        
-#         if isMoleculeInCommonName(molecule) == False:
-#             filtered_molecules_common_name.append(molecule)
-#     filtered_charge = filtered_by_charge(filtered_molecules_common_name)
-#     return filtered_charge
+def filter_molecular_data(data):
+    filtered_molecules_common_name = []
+    #as we go thru every molecule and we check every name and see if that is in our common names and if it is, skip it(molecule) and not add it to our list.
+    #Given, do, return
+    for molecule in data["records"]:        
+        if isMoleculeInCommonName(molecule) == False:
+            filtered_molecules_common_name.append(molecule)
+    filtered_charge = filtered_by_charge(filtered_molecules_common_name)
+    return filtered_charge
 
 #helper function
-# def isMoleculeInCommonName(molecule):
-#     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I"]
-#     for name in common_names:
-#         molecule_name = molecule["commonName"]
-#         molecule_name = molecule_name.replace(" ", "")
+def isMoleculeInCommonName(molecule):
+    common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "per", "(", ")", "I"]
+    for name in common_names:
+        molecule_name = molecule["commonName"]
+        molecule_name = molecule_name.replace(" ", "")
 
-#         if name in molecule_name:
-#             return True
-#         elif molecule_name.isalnum():
-#             return False 
-#     return True
+        if name in molecule_name:
+            return True
+        elif molecule_name.isalnum():
+            return False 
+    return True
 
 def filtered_by_charge(filtered_data):
     filtered_molecules = []
