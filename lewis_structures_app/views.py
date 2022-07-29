@@ -34,6 +34,17 @@ def index(request):
     response = requests.post(apiUrl, headers = {'apikey': apiKey}, json = params) 
     elementRequest = response.json()
     elementRequestDisplay= get_query_status(elementRequest)
+    for formula in elementRequestDisplay:
+        if not Molecule.objects.filter(molecular_formula=formula).exists():
+        # if formula not in Molecule.objects.all():
+        # call to database to see if it exists
+        # if it does, pass
+        # else, add it
+            formula_data = Molecule(
+                molecular_formula = formula
+            )
+            formula_data.save()
+            all_formulas = Molecule.objects.all().order_by('molecule_id')
     return JsonResponse(elementRequestDisplay, safe=False)
 
 
@@ -46,6 +57,7 @@ def get_query_status(query_id):
     queryResultDisplay = get_query_result(query_id)
     return queryResultDisplay
 
+# put in for loop
 def get_query_result(query_id):
     '''
     Given query id, request query results, returns dict with list of query results
@@ -53,7 +65,8 @@ def get_query_result(query_id):
     #randomize the molecules
     params={
         "start": randint(0,890),
-        "count": 50
+        # "start": 200,
+        "count": 100
     }
     response = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_id}/results', params = params, headers={'apikey': apiKey})
     data = response.json()

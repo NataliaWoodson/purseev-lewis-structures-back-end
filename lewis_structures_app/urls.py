@@ -7,5 +7,5 @@ router.register(r"molecules", views.MoleculeViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path('api', views.index, name='index'),
+    path('api/', views.index, name='index'),
 ]
