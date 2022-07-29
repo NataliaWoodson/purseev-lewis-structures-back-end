@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register(r"molecules", views.MoleculeViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
+    # path("", include(router.urls)),
+    path("", views.home, name='home'),
     path('api/', views.index, name='index'),
 ]

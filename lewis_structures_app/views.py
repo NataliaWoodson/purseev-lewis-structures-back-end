@@ -1,13 +1,16 @@
 from lewis_structures_app.models import Molecule
 from rest_framework import viewsets, permissions
 from lewis_structures_app.serializers import MoleculeSerializer
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import requests
 import os
 from random import randint
 
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
+
+def home(request):
+    return HttpResponse("Hello there!")
 
 class MoleculeViewSet(viewsets.ModelViewSet):
     """
