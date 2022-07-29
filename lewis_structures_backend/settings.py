@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "lewis_structures_backend.wsgi.application"
+WSGI_APPLICATION = "purseev-lewis-structures-back-end.wsgi.application"
 
 
 # Database
