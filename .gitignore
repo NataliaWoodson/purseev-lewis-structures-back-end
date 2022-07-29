@@ -115,6 +115,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+eb-virt
 
 # Spyder project settings
 .spyderproject
