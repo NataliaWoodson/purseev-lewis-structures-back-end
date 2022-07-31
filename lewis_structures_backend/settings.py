@@ -81,12 +81,14 @@ WSGI_APPLICATION = "lewis_structures_backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "purseev_lewis_structures",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "",
-        "PORT": "",
+        # "ENGINE": "django.db.backends.postgresql",
+        # "NAME": "purseev_lewis_structures",
+        # "USER": "postgres",
+        # "PASSWORD": "postgres",
+        # "HOST": "",
+        # "PORT": "",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 import dj_database_url
