@@ -83,10 +83,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "purseev_lewis_structures",
-        # "USER": "postgres",
-        # "PASSWORD": "postgres",
-        # "HOST": "",
-        # "PORT": "",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "",
+        "PORT": "",
     }
 }
 import dj_database_url
