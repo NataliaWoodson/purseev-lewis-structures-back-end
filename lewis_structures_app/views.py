@@ -10,8 +10,11 @@ import os
 import time
 from random import randint
 
+
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
+
+
 
 class MoleculeViewSet(viewsets.ModelViewSet):
     """
@@ -22,9 +25,9 @@ class MoleculeViewSet(viewsets.ModelViewSet):
     serializer_class = MoleculeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
 apiUrl = "https://api.rsc.org/compounds/v1/filter/element"
 apiKey = os.environ.get("API_KEY")
+
 
 def index(request):
     '''
@@ -97,7 +100,12 @@ def filter_molecular_data(data):
 def isMoleculeInCommonName(molecule):
     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
     for name in common_names:
-        molecule_name = molecule["commonName"]
+        try:
+
+            molecule_name = molecule["commonName"]
+        except KeyError:
+            print(molecule)
+            raise
         molecule_name = molecule_name.replace(" ", "")
 
         if name in molecule_name:
