@@ -27,11 +27,17 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 from lewis_structures_app import views
+from django.contrib import admin
 
 router = routers.DefaultRouter()
 router.register(r"molecules", views.MoleculeViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path('api/', views.index, name='index'),
+    path("lewis_structures_app/", include("lewis_structures_app.urls")),
+    path("admin/", admin.site.urls),
 ]
+
+# urlpatterns = [
+#     path("", include(router.urls)),
+#     path('api/', views.index, name='index'),
+# ]

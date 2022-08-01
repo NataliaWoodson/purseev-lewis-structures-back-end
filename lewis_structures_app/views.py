@@ -9,6 +9,7 @@ import json
 import os
 import time
 from random import randint
+from rest_framework.decorators import authentication_classes
 
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -26,7 +27,7 @@ class MoleculeViewSet(viewsets.ModelViewSet):
 apiUrl = "https://api.rsc.org/compounds/v1/filter/element"
 apiKey = os.environ.get("API_KEY")
 
-# @require_http_methods(["POST"])
+@authentication_classes([])
 def index(request):
     '''
     Given params, make GET request to API, returns query id
@@ -39,6 +40,15 @@ def index(request):
     response = requests.post(apiUrl, headers = {'apikey': apiKey}, json = params) 
     elementRequest = response.json()
     elementRequestDisplay= get_query_status(elementRequest)
+    
+    for formula in elementRequestDisplay:
+        if not Molecule.objects.filter(molecular_formula=formula).exists():
+            formula_data = Molecule(
+                molecular_formula = formula
+            )
+            formula_data.save()
+            all_formulas = Molecule.objects.all().order_by('molecule_id')
+
     return JsonResponse(elementRequestDisplay, safe=False)
 
 
@@ -96,6 +106,8 @@ def filter_molecular_data(data):
 
 #helper function
 def isMoleculeInCommonName(molecule):
+    if "commonName" not in molecule:
+        return True
     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
     for name in common_names:
         molecule_name = molecule["commonName"]
