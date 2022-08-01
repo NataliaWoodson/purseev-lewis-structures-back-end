@@ -13,13 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+# from django.contrib import admin
+# from django.urls import include, path
+# # from lewis_structures_app import views
+
+
+
+# urlpatterns = [
+#     path("lewis_structures_app/", include("lewis_structures_app.urls")),
+#     path("admin/", admin.site.urls),
+# ]
+
 from django.urls import include, path
-# from lewis_structures_app import views
+from rest_framework import routers
+from lewis_structures_app import views
 
-
+router = routers.DefaultRouter()
+router.register(r"molecules", views.MoleculeViewSet)
 
 urlpatterns = [
-    path("lewis_structures_app/", include("lewis_structures_app.urls")),
-    path("admin/", admin.site.urls),
+    path("", include(router.urls)),
+    path('api/', views.index, name='index'),
 ]
