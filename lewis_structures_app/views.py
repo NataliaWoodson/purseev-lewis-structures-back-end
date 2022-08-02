@@ -1,17 +1,10 @@
 from lewis_structures_app.models import Molecule
 from rest_framework import viewsets, permissions
 from lewis_structures_app.serializers import MoleculeSerializer
-from operator import contains
-from urllib import response
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 import requests
-import json
 import os
-import time
 from random import randint
-
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
 
 class MoleculeViewSet(viewsets.ModelViewSet):
     """
@@ -38,6 +31,17 @@ def index(request):
     response = requests.post(apiUrl, headers = {'apikey': apiKey}, json = params) 
     elementRequest = response.json()
     elementRequestDisplay= get_query_status(elementRequest)
+    for formula in elementRequestDisplay:
+        if not Molecule.objects.filter(molecular_formula=formula).exists():
+        # if formula not in Molecule.objects.all():
+        # call to database to see if it exists
+        # if it does, pass
+        # else, add it
+            formula_data = Molecule(
+                molecular_formula = formula
+            )
+            formula_data.save()
+            all_formulas = Molecule.objects.all().order_by('molecule_id')
     return JsonResponse(elementRequestDisplay, safe=False)
 
 
@@ -50,6 +54,7 @@ def get_query_status(query_id):
     queryResultDisplay = get_query_result(query_id)
     return queryResultDisplay
 
+# put in for loop
 def get_query_result(query_id):
     '''
     Given query id, request query results, returns dict with list of query results
@@ -57,7 +62,8 @@ def get_query_result(query_id):
     #randomize the molecules
     params={
         "start": randint(0,890),
-        "count": 50
+        # "start": 200,
+        "count": 100
     }
     response = requests.get(f'https://api.rsc.org/compounds/v1/filter/{query_id}/results', params = params, headers={'apikey': apiKey})
     data = response.json()
@@ -95,6 +101,8 @@ def filter_molecular_data(data):
 
 #helper function
 def isMoleculeInCommonName(molecule):
+    if "commonName" not in molecule:
+        return True
     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
     for name in common_names:
         molecule_name = molecule["commonName"]
@@ -102,8 +110,6 @@ def isMoleculeInCommonName(molecule):
 
         if name in molecule_name:
             return True
-        # elif molecule_name.isalnum():
-        #     return False 
     return False
 
 def filtered_by_charge(filtered_data):
@@ -157,53 +163,3 @@ def filter_for_max_atoms(molecule):
     if count <= 6:
         final_list.append(molecule)
     return final_list
-
-
-
-# ******************************************************************************
-    
-    # for molecule in filtered_data:
-    #     count = 0
-    #     for char in range(len(molecule) - 1):
-    #         if (molecule[char] + 1).isdigit():
-    #             count += int(molecule[char] + 1)
-    #         else:
-    #             count += 1
-    # if count <= 6:
-    #     final_list.append(molecule)   
-    # return final_list
-
-
-
-
-# def filtered_by_charge(data):
-#     filtered_molecules = []    
-#     for molecule in data["records"]:
-#         stdinchi_key = molecule["stdinchiKey"]
-#         res = requests.get(f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchikey/{stdinchi_key}/property/MolecularFormula,Charge,Complexity/JSON')
-#         res_data = res.json()
-#         if "Fault" in res_data:
-#             continue
-#         elif res_data["PropertyTable"]["Properties"][0]["Charge"] == 0: 
-#             filtered_molecules.append(res_data["PropertyTable"]["Properties"][0]["MolecularFormula"])
-#     remove_molecules_starting_with_num(filtered_molecules)
-#     return data
-
-# def remove_molecules_starting_with_num(filtered_molecules):
-#     filtered_list = []
-#     for molecule in filtered_molecules:
-#         if not molecule[0].isdigit():
-#             filtered_list.append(molecule)
-#     filter_atoms(filtered_list)
-
-# # filter for only 6 atoms
-
-    # return set(filtered_data)
-    #     if not formula.isalpha():
-    #         filter_for_max_atoms(formula)
-    #     else:
-    #         count = len(formula)
-    #         print(count)
-    #         if count <= 6:
-    #             final_list.append(formula)
-    # return final_list
