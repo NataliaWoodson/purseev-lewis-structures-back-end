@@ -6,9 +6,6 @@ import requests
 import os
 from random import randint
 
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
-
 class MoleculeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows molecules to be viewed or edited
