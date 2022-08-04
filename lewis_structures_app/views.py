@@ -100,12 +100,7 @@ def filter_molecular_data(data):
 def isMoleculeInCommonName(molecule):
     common_names = ["ion", "ide", "ite", "ate", "ic", "ous", "ium", "hypo", "yl", "per", "(", ")", "I", "$"]
     for name in common_names:
-        try:
-
-            molecule_name = molecule["commonName"]
-        except KeyError:
-            print(molecule)
-            raise
+        molecule_name = molecule["commonName"]
         molecule_name = molecule_name.replace(" ", "")
 
         if name in molecule_name:
